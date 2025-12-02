@@ -23,10 +23,17 @@ public class PairMatchingController {
         } catch (IOException e) {
             throw new RuntimeException("[ERROR] 파일을 불러오는데 실패했습니다.");
         }
+        selectFunction();
+        selectCriteria();
     }
 
     public PairMatchingFunction selectFunction() {
         outputView.printFunctionSelectMenu();
         return inputView.readFunctionSelection();
+    }
+
+    public void selectCriteria() {
+        outputView.printCourseAndMission();
+        System.out.println(inputView.readCriteria());
     }
 }
