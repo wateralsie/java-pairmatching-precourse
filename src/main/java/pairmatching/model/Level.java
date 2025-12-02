@@ -1,7 +1,9 @@
 package pairmatching.model;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public enum Level {
     LEVEL1("레벨1", List.of("자동차경주", "로또", "숫자야구게임")),
@@ -18,8 +20,13 @@ public enum Level {
         this.missions = missions;
     }
 
-    @Override
-    public String toString() {
+    public static String getAllInfosAsString() {
+        return Arrays.stream(values())
+                .map(level -> String.format("  - %s: %s", level.name, level.getMissionsAsString()))
+                .collect(Collectors.joining("\n"));
+    }
 
+    private String getMissionsAsString() {
+        return String.join(" | ", missions);
     }
 }

@@ -18,8 +18,6 @@ public class PairMatchingController {
         try {
             backendCrewNames = inputView.readCrewNames("backend-crew.md");
             frontendCrewNames = inputView.readCrewNames("frontend-crew.md");
-            System.out.println(backendCrewNames);
-            System.out.println(frontendCrewNames);
         } catch (IOException e) {
             throw new RuntimeException("[ERROR] 파일을 불러오는데 실패했습니다.");
         }
