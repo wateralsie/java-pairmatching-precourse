@@ -21,7 +21,18 @@ public enum PairMatchingFunction {
     }
 
     public static PairMatchingFunction from(String shortcut) {
+        validate(shortcut);
         return BY_SHORTCUT.get(shortcut);
+    }
+
+    private static void validate(String shortcut) {
+        validateShortcut(shortcut);
+    }
+
+    private static void validateShortcut(String shortcut) {
+        if (!BY_SHORTCUT.containsKey(shortcut)) {
+            throw new IllegalArgumentException(String.format("[ERROR] 존재하지 않는 기능 번호입니다 : %s", shortcut));
+        }
     }
 
     private String getShortcut() {
