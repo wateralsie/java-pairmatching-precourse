@@ -9,9 +9,13 @@ import java.util.List;
 import pairmatching.model.PairMatchingFunction;
 
 public class InputView {
-    public List<String> readCrewNames(String fileName) throws IOException {
+    public List<String> readCrewNames(String fileName) {
         String url = String.format("src/main/resources/%s", fileName);
-        return Files.readAllLines(Paths.get(url));
+        try {
+            return Files.readAllLines(Paths.get(url));
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("[ERROR] 파일을 불러오는데 실패했습니다 : %s", fileName));
+        }
     }
 
     public PairMatchingFunction readFunctionSelection() {
