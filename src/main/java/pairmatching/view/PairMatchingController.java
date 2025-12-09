@@ -1,6 +1,11 @@
 package pairmatching.view;
 
 import java.util.List;
+import pairmatching.PairMatchingService;
+import pairmatching.model.Course;
+import pairmatching.model.Mission;
+import pairmatching.model.Pair;
+import pairmatching.model.PairCriteria;
 import pairmatching.model.PairMatchingFunction;
 
 public class PairMatchingController {
@@ -15,12 +20,14 @@ public class PairMatchingController {
     public void run() {
         List<String> backendCrewNames = inputView.readCrewNames("backend-crew.md");
         List<String> frontendCrewNames = inputView.readCrewNames("frontend-crew.md");
+        PairMatchingService pairMatchingService = new PairMatchingService();
         while (true) {
             PairMatchingFunction selectedFunction = selectFunction();
             if (selectedFunction == PairMatchingFunction.MATCHING) {
-                selectCriteria();
-                // TODO: 페어 매칭 로직
-                // TODO: 페어 매칭 결과 출력
+                List<Pair> pairs = pairMatchingService.start(selectCriteria(), backendCrewNames, frontendCrewNames);
+                for (Pair pair : pairs) {
+                    System.out.println(pair);
+                }
                 continue;
             }
             if (selectedFunction == PairMatchingFunction.VIEW) {
@@ -43,8 +50,12 @@ public class PairMatchingController {
         return inputView.readFunctionSelection();
     }
 
-    public void selectCriteria() {
+    public PairCriteria selectCriteria() {
         outputView.printCourseAndMission();
-        System.out.println(inputView.readCriteria());
+        List<String> criteriaNames = inputView.readCriteria();
+        Course course = Course.getCourseByName(criteriaNames.getFirst());
+        Mission mission = Mission.getMission(criteriaNames.get(1), criteriaNames.getLast());
+        PairCriteria criteria = new PairCriteria(course, mission);
+        return criteria;
     }
 }

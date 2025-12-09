@@ -1,32 +1,34 @@
 package pairmatching.model;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum Level {
-    LEVEL1("레벨1", List.of("자동차경주", "로또", "숫자야구게임")),
-    LEVEL2("레벨2", List.of("장바구니", "결제", "지하철노선도")),
-    LEVEL3("레벨3", Collections.emptyList()),
-    LEVEL4("레벨4", List.of("성능개선", "배포")),
-    LEVEL5("레벨5", Collections.emptyList());
+    LEVEL1("레벨1"),
+    LEVEL2("레벨2"),
+    LEVEL3("레벨3"),
+    LEVEL4("레벨4"),
+    LEVEL5("레벨5");
 
     private final String name;
-    private final List<String> missions;
 
-    Level(String name, List<String> missions) {
+    private static final Map<String, Level> BY_NAME =
+            Stream.of(values()).collect(Collectors.toMap(Level::getName, Function.identity()));
+
+    Level(String name) {
         this.name = name;
-        this.missions = missions;
     }
 
-    public static String getAllInfosAsString() {
-        return Arrays.stream(values())
-                .map(level -> String.format("  - %s: %s", level.name, level.getMissionsAsString()))
-                .collect(Collectors.joining("\n"));
+    public static Level getLevelByName(String name) {
+        if (!BY_NAME.containsKey(name)) {
+            throw new IllegalArgumentException(String.format("[ERROR] 입력하신 레벨은 존재하지 않습니다 : %s", name));
+        }
+        return BY_NAME.get(name);
     }
 
-    private String getMissionsAsString() {
-        return String.join(" | ", missions);
+    public String getName() {
+        return name;
     }
 }

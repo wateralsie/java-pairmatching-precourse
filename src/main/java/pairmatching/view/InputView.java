@@ -25,6 +25,10 @@ public class InputView {
 
     public List<String> readCriteria() {
         String criterias = Console.readLine();
-        return Arrays.stream(criterias.split(", ")).toList();
+        List<String> criteriaList = Arrays.stream(criterias.split(", ")).toList();
+        if (criteriaList.size() != 3) {
+            throw new IllegalArgumentException(String.format("[ERROR] 유효하지 않은 양식입니다 : %s", criterias));
+        }
+        return criteriaList;
     }
 }
