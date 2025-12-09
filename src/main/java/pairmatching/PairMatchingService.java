@@ -25,6 +25,10 @@ public class PairMatchingService {
         return pairMatchingArchive.get(criteria);
     }
 
+    public void reset() {
+        pairMatchingArchive.clear();
+    }
+
     public List<Pair> createPairs(PairCriteria criteria) {
         List<Crew> selectedCrews = shuffle(crews.get(criteria.getCourse()));
         List<Pair> pairs = new ArrayList<>();

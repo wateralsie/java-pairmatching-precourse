@@ -25,6 +25,8 @@ public class PairMatchingController {
             PairMatchingFunction selectedFunction = selectFunction();
             if (selectedFunction == PairMatchingFunction.MATCHING) {
                 List<Pair> pairs = pairMatchingService.match(selectCriteria(), backendCrewNames, frontendCrewNames);
+                System.out.println();
+                System.out.println("페어 매칭 결과입니다.");
                 for (Pair pair : pairs) {
                     System.out.println(pair);
                 }
@@ -32,13 +34,16 @@ public class PairMatchingController {
             }
             if (selectedFunction == PairMatchingFunction.VIEW) {
                 List<Pair> pairs = pairMatchingService.view(selectCriteria());
+                System.out.println();
+                System.out.println("페어 매칭 결과입니다.");
                 for (Pair pair : pairs) {
                     System.out.println(pair);
                 }
                 continue;
             }
             if (selectedFunction == PairMatchingFunction.RESET) {
-                // TODO: 저장된 페어 매칭 내역 전체 삭제
+                pairMatchingService.reset();
+                outputView.printResetDoneMessage();
                 continue;
             }
             if (selectedFunction == PairMatchingFunction.QUIT) {
@@ -57,7 +62,6 @@ public class PairMatchingController {
         List<String> criteriaNames = inputView.readCriteria();
         Course course = Course.getCourseByName(criteriaNames.getFirst());
         Mission mission = Mission.getMission(criteriaNames.get(1), criteriaNames.getLast());
-        PairCriteria criteria = new PairCriteria(course, mission);
-        return criteria;
+        return new PairCriteria(course, mission);
     }
 }
