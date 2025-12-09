@@ -14,14 +14,18 @@ public class PairMatchingService {
     private final Map<PairCriteria, List<Pair>> pairMatchingArchive = new HashMap<>();
     private final Map<Course, List<Crew>> crews = new HashMap<>();
 
-    public List<Pair> start(PairCriteria criteria, List<String> backendNames, List<String> frontendNames) {
+    public List<Pair> match(PairCriteria criteria, List<String> backendNames, List<String> frontendNames) {
         initCrews(backendNames, frontendNames);
-        List<Pair> matchedPairs = match(criteria);
+        List<Pair> matchedPairs = createPairs(criteria);
         pairMatchingArchive.put(criteria, matchedPairs);
         return matchedPairs;
     }
 
-    public List<Pair> match(PairCriteria criteria) {
+    public List<Pair> view(PairCriteria criteria) {
+        return pairMatchingArchive.get(criteria);
+    }
+
+    public List<Pair> createPairs(PairCriteria criteria) {
         List<Crew> selectedCrews = shuffle(crews.get(criteria.getCourse()));
         List<Pair> pairs = new ArrayList<>();
         for (int i = 0; i < selectedCrews.size(); i += 2) {

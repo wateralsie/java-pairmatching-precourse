@@ -24,15 +24,17 @@ public class PairMatchingController {
         while (true) {
             PairMatchingFunction selectedFunction = selectFunction();
             if (selectedFunction == PairMatchingFunction.MATCHING) {
-                List<Pair> pairs = pairMatchingService.start(selectCriteria(), backendCrewNames, frontendCrewNames);
+                List<Pair> pairs = pairMatchingService.match(selectCriteria(), backendCrewNames, frontendCrewNames);
                 for (Pair pair : pairs) {
                     System.out.println(pair);
                 }
                 continue;
             }
             if (selectedFunction == PairMatchingFunction.VIEW) {
-                selectCriteria();
-                // TODO: 페어 매칭 결과 출력
+                List<Pair> pairs = pairMatchingService.view(selectCriteria());
+                for (Pair pair : pairs) {
+                    System.out.println(pair);
+                }
                 continue;
             }
             if (selectedFunction == PairMatchingFunction.RESET) {
